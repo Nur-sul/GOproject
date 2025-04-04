@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:17.4-alpine
+    container_name: go-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: myPassword
+      POSTGRES_DB: bookdatabase
+    ports:
+      - "5444:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
