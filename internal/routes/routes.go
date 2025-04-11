@@ -1,7 +1,9 @@
 package routes
 
 import (
+	"rest-project/internal/auth"
 	"rest-project/internal/delivery"
+	"rest-project/internal/middleware"
 	"rest-project/internal/repository"
 	service "rest-project/internal/services"
 
@@ -19,8 +21,21 @@ func SetupRoutes(r *gin.Engine, db *gorm.DB) {
 	// Инициализация обработчика
 	bookHandler := delivery.NewBookHandler(bookService)
 
-	// Роуты
+	authRoutes := r.Group("api/v1/auth")
+	{
+		authRoutes.POST("/login", auth.Login)
+		authRoutes.POST("/register", auth.Register)
+	}
+
+	protected := r.Group("api/v1")
+	protected.Use(middleware.AuthRequired())
+	{
+		protected.GET("/me", auth.Me)
+
+	}
+
 	books := r.Group("api/v1/books")
+	books.Use(middleware.AuthRequired())
 	{
 		books.GET("/", bookHandler.GetAllBooks)
 		books.POST("/", bookHandler.CreateBook)
@@ -28,4 +43,5 @@ func SetupRoutes(r *gin.Engine, db *gorm.DB) {
 		books.PUT("/:id", bookHandler.UpdateBook)
 		books.DELETE("/:id", bookHandler.DeleteBook)
 	}
+
 }
