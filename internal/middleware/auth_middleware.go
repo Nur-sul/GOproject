@@ -31,7 +31,13 @@ func AuthRequired() gin.HandlerFunc {
 			return
 		}
 
+		userRole, ok := claims["role"].(string)
+		if !ok {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "invalid token payload (user role)"})
+		}
+
 		c.Set("userID", uint(userIDFloat))
+		c.Set("role", userRole)
 		c.Next()
 	}
 }

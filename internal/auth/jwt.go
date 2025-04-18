@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"rest-project/internal/models"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -9,9 +10,10 @@ import (
 
 var secret = []byte("nurs-book-secret")
 
-func GenerateJWT(userID uint) (string, error) {
+func GenerateJWT(user models.User) (string, error) {
 	claims := jwt.MapClaims{
-		"user_id": userID,
+		"user_id": user.ID,
+		"role":    user.Role,
 		"exp":     time.Now().Add(time.Hour * 24).Unix(),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)

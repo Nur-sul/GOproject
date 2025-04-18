@@ -37,11 +37,11 @@ func SetupRoutes(r *gin.Engine, db *gorm.DB) {
 	books := r.Group("api/v1/books")
 	books.Use(middleware.AuthRequired())
 	{
-		books.GET("/", bookHandler.GetAllBooks)
-		books.POST("/", bookHandler.CreateBook)
-		books.GET("/:id", bookHandler.GetBook)
-		books.PUT("/:id", bookHandler.UpdateBook)
-		books.DELETE("/:id", bookHandler.DeleteBook)
+		books.GET("/", middleware.RoleMiddleware("admin", "user"), bookHandler.GetAllBooks)
+		books.POST("/", middleware.RoleMiddleware("admin"), bookHandler.CreateBook)
+		books.GET("/:id", middleware.RoleMiddleware("admin", "user"), bookHandler.GetBook)
+		books.PUT("/:id", middleware.RoleMiddleware("admin"), bookHandler.UpdateBook)
+		books.DELETE("/:id", middleware.RoleMiddleware("admin"), bookHandler.DeleteBook)
 	}
 
 }

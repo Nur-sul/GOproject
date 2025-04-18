@@ -39,7 +39,7 @@ func InitDB() {
 		log.Fatal(err)
 	}
 
-	if err := m.Up(); err != nil && err.Error() != "Don't have any changes" {
+	if err := m.Up(); err != nil && err.Error() != "no change" {
 		log.Fatal(err)
 	}
 
