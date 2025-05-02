@@ -16,11 +16,11 @@ import (
 var DB *gorm.DB
 
 func InitDB() {
-	dbHost := "localhost"
+	dbHost := "postgres"
 	dbName := "bookdatabase"
 	dbUser := "postgres"
 	dbPass := "myPassword"
-	dbPort := "5444"
+	dbPort := "5432"
 	sslmode := "disable"
 	dbUrl := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=%s", dbUser, dbPass, dbHost, dbPort, dbName, sslmode)
 

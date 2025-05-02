@@ -8,5 +8,6 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username TEXT NOT NULL,
     password TEXT NOT NULL,
-    role TEXT DEFAULT NOT NULL 'user'
+    role TEXT NOT NULL DEFAULT 'user'
 );
+
